@@ -12,7 +12,7 @@ def parser(x):
 
 
 #testsequence
-seq = "ACUGUUACCGUAAGC"
+#seq = "ACUGUUACCGUAAGC"
 
 m = len(seq)
 
@@ -65,7 +65,7 @@ for n in range(2,m):
                            matrix[i+1][j],              #unpaired
                            matrix[i+1][j-1] + pairs[seq[i],seq[j]],     #paired
                            max(
-                               [(matrix[i][k] + matrix[k+1][j] * pairs[seq[k],seq[j]]) for x in i <= k < (j-1)]     #bifurkation
+                               [(matrix[i][k] + matrix[k+1][j] * pairs[seq[k],seq[j]]) for k in range(i,j)]     #bifurkation
                            )
         )
 
