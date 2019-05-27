@@ -3,7 +3,7 @@
 
 #testsequence
 
-seq = "ACGAGGAAUCGUA"
+seq = "AAAAAUUUUUU"
 seqlist = [x for x in seq]
 
 m = len(seq)
