@@ -69,7 +69,48 @@ for n in range(2,m):
                            )
         )
 
+#traceback
 
+
+dotbracket = ['.' for x in range(m)]   #creating dotbracket annotation
+
+
+def traceback(i,j):
+    while i < j:
+        if matrix[i][j] == (matrix[i + 1][j - 1] * pairs[seq[i], seq[j]]):  # paired
+            dotbracket[i] = '('
+            dotbracket[j] = ')'
+            traceback(i + 1, j - 1)
+        elif matrix[i][j] == matrix[i+1][j]:                  #unpaired
+            traceback(i+1,j)
+        elif matrix[i][j] == matrix[i][j-1]:                #unpaired
+            traceback(i,j-1)
+        else:                                               #bifurkation
+            for k in range(i+1,j-1):
+                if matrix[i][j] == matrix[i][k] + matrix[k+1][j]:
+                    traceback(i,k)
+                    traceback(k+1,j)
+    return dotbracket
+
+
+
+def calculateenergy():
+    pass
+
+
+
+print("start")
+
+matrix = init(m)
+score = fill(matrix,m,pairs)
+show(matrix, m)
+
+print(score[0][m-1])
+
+traceback(0,m-1)
+print(dotbracket)
+
+print("ende")
 
 
 
