@@ -68,31 +68,6 @@ def fill(matrix,m,pairs):
 
 #traceback
 
-def traceback(matrix,m):
-    dotbracket = ['.' for x in range(m)]
-    trace = [(0,m-1)]
-    while trace is not []:
-        if i >= j:
-            pass
-        elif matrix[i+1][j] == matrix[i][j]:
-            trace.append(matrix[i+1][j])
-        elif matrix[i][j-1] == matrix[i][j]:
-            trace.append(matrix[i][j])
-        elif (matrix[i+1][j-1] + pairs[seq[i],pairs[j]]) == matrix[i][j]:
-            trace.append(matrix[i+1][j-1])
-            dotbracket[i] = '('
-            dotbracket[j] = ')'
-        else:
-            for k in range(i+1,j-1):
-                if (matrix[i][k] + matrix[k+1][j]) == matrix[i][j]:
-                    trace.append(matrix[k+1][j])
-                    trace.append(matrix[i][k])
-                else:
-                    break
-    return(dotbracket)
-
-#traceback
-
 
 dotbracket = ['.' for x in range(m)]   #creating dotbracket annotation
 
@@ -121,7 +96,6 @@ def calculateenergy():
 
 
 
-print("start")
 
 matrix = init(m)
 score = fill(matrix,m,pairs)
@@ -130,24 +104,4 @@ show(matrix, m)
 print(score[0][m-1])
 
 traceback(0,m-1)
-print(dotbracket)
-
-print("ende")
-
-
-
-def calculateenergy():
-    pass
-
-
-
-
-
-matrix = init(m)
-score = fill(matrix,m,pairs)
-show(matrix, m)
-
-print(score[0][m-1])
-
-traceback(matrix,m)
 print(dotbracket)
