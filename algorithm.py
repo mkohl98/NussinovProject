@@ -93,21 +93,28 @@ def traceback(i,j):
     return dotbracket
 
 
+#calculate binding energy of the structure
 
 def calculateenergy(dotbracket):
+    Energy = 0
     AU = 0
     GC = 0
-    x=0
+    x = 0
+    Energy_AU = 20
+    Energy_GC = 30
     for charackter in dotbracket:
         if charackter == '(':
             y = dotbracket.index(charackter, x)
             if seqlist[y] == 'A' or 'U':
-                print("au")
+                AU = AU + 1
             else:
-                print("gc")
-            x = dotbracket.index(charackter,x ) + 1
+                GC = GC + 1
+            x = dotbracket.index(charackter, x ) + 1
         else:
              pass
+    Energy = (AU*Energy_AU)+(GC*Energy_GC)
+    print("The Energy of this structure is about", Energy, "kJ/mol")
+    return Energy
 
 
 print("start")
