@@ -4,7 +4,7 @@
 #testsequence
 
 seq = "ACGAGGAAUCGUA"
-
+seqlist = [x for x in seq]
 
 m = len(seq)
 
@@ -95,7 +95,19 @@ def traceback(i,j):
 
 
 def calculateenergy(dotbracket):
-    pass
+    AU = 0
+    GC = 0
+    x=0
+    for charackter in dotbracket:
+        if charackter == '(':
+            y = dotbracket.index(charackter, x)
+            if seqlist[y] == 'A' or 'U':
+                print("au")
+            else:
+                print("gc")
+            x = dotbracket.index(charackter,x ) + 1
+        else:
+             pass
 
 
 print("start")
@@ -109,4 +121,7 @@ print(score[0][m-1])
 traceback(0,m-1)
 print(dotbracket)
 
+print("Energy")
+print("m =", m)
+calculateenergy(dotbracket)
 print("end")
