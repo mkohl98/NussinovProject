@@ -1,11 +1,16 @@
 import argparse
 
-# submission = input("Enter your sequence.")
+parser = argparse.ArgumentParser()
+parser.add_argument("--sequence", required=True, type=str, help="Enter your RNA sequence here!")
+# parser.add_argument("--output_dir", required=True, help="Where to put output files")
+
+a = parser.parse_args()
+
+seq = a.sequence
 
 
-# testsequence
 
-seq = "AAAAAUUUUUUAAAAAUUUUUUUAAAAAAA"
+
 seqlist = [x for x in seq]
 
 m = len(seq)
@@ -93,7 +98,6 @@ def traceback(i, j):
 # calculate binding energy of the structure
 
 def calculateenergy(dotbracket):
-    Energy = 0
     AU = 0
     GC = 0
     x = 0
