@@ -1,9 +1,9 @@
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--sequence", required=True, type=str, help="Enter your RNA sequence here!")
-# parser.add_argument("--output_dir", required=True, help="Where to put output files")
-
+parser.add_argument("-input", "--sequence", required=True, type=str, help="Enter your RNA sequence here!")
+parser.add_argument("--output_dir", help="Where to put output files")
+parser.add_argument("-mll", "--minloop", default=4, type=int, help="Modify the minimal loop length.")
 a = parser.parse_args()
 
 seq = a.sequence
@@ -15,7 +15,7 @@ seqlist = [x for x in seq]
 
 m = len(seq)
 
-minloop = 2                # minimal loop length
+minloop = a.minloop                # minimal loop length
 
 
 # initialise matrix
@@ -73,7 +73,6 @@ def fill(matrix, m, pairs):
 
 
 # traceback
-
 
 dotbracket = ['.' for x in range(m)]   # creating dotbracket annotation
 
