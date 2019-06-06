@@ -1,25 +1,26 @@
+import argparse
+
 # submission = input("Enter your sequence.")
 
 
-#testsequence
+# testsequence
 
-seq = "AAAAAUUUUUU"
+seq = "AAAAAUUUUUUAAAAAUUUUUUUAAAAAAA"
 seqlist = [x for x in seq]
 
 m = len(seq)
 
-minloop = 2                #minimal loop lenght
-
+minloop = 2                # minimal loop length
 
 
 # initialise matrix
 
 def init(m):
     matrix = list(list(0 for x in range(m)) for x in range(m))
-    return(matrix)
+    return (matrix)
 
 
-#show matrix
+# show matrix
 
 def show(matrix, m):
     for i in range(m):
@@ -28,7 +29,7 @@ def show(matrix, m):
         print()
 
 
-#scoring matrix
+# scoring matrix
 
 pairs = {
     ('A', 'A'): 0,
@@ -50,54 +51,54 @@ pairs = {
 }
 
 
-#filling
+# filling
 
-def fill(matrix,m,pairs):
-    for n in range(2,m):
-        for j in range(n,m):
+def fill(matrix, m, pairs):
+    for n in range(2, m):
+        for j in range(n, m):
             i = j -n
-            matrix[i][j] = max(matrix[i][j-1],              #unpaired
-                               matrix[i+1][j],              #unpaired
-                               matrix[i+1][j-1] + pairs[seq[i],seq[j]],     #paired
+            matrix[i][j] = max(matrix[i][j-1],              # unpaired
+                               matrix[i+1][j],              # unpaired
+                               matrix[i+1][j-1] + pairs[seq[i], seq[j]],     # paired
                                max(
-                                   [(matrix[i][k] + matrix[k+1][j] * pairs[seq[k],seq[j]]) for k in range(i,j)]     #bifurkation
+                                   [(matrix[i][k] + matrix[k+1][j] * pairs[seq[k], seq[j]]) for k in range(i, j)]     # bifurkation
                                )
             )
     return(matrix)
 
 
-#traceback
+# traceback
 
 
-dotbracket = ['.' for x in range(m)]   #creating dotbracket annotation
+dotbracket = ['.' for x in range(m)]   # creating dotbracket annotation
 
 
-def traceback(i,j):
-    if i < j:            #opportunity to set minimal loop lenght by adding this to 'i'
-        if matrix[i][j] == matrix[i+1][j]:                  #unpaired
-            return traceback(i+1,j)
-        elif matrix[i][j] == matrix[i][j-1]:  #unpaired
-            return traceback(i,j-1)
+def traceback(i, j):
+    if i + minloop < j:            # opportunity to set minimal loop length by adding this to 'i'
+        if matrix[i][j] == matrix[i+1][j]:                  # unpaired
+            return traceback(i+1, j)
+        elif matrix[i][j] == matrix[i][j-1]:  # unpaired
+            return traceback(i, j-1)
         elif matrix[i][j] == (matrix[i + 1][j - 1] + pairs[seq[i], seq[j]]):  # paired
             dotbracket[i] = '('
             dotbracket[j] = ')'
             return traceback(i + 1, j - 1)
-        else:                                               #bifurkation
-            for k in range(i+1,j-1):
+        else:                                               # bifurkation
+            for k in range(i+1, j-1):
                 if matrix[i][j] == matrix[i][k] + matrix[k+1][j]:
-                    return traceback(i,k), traceback(k+1,j)
+                    return traceback(i, k), traceback(k+1, j)
     return dotbracket
 
 
-#calculate binding energy of the structure
+# calculate binding energy of the structure
 
 def calculateenergy(dotbracket):
     Energy = 0
     AU = 0
     GC = 0
     x = 0
-    Energy_AU = 20
-    Energy_GC = 30
+    Energy_AU = -1.9
+    Energy_GC = -2.9
     for charackter in dotbracket:
         if charackter == '(':
             y = dotbracket.index(charackter, x)
@@ -109,16 +110,16 @@ def calculateenergy(dotbracket):
         else:
              pass
     Energy = (AU*Energy_AU)+(GC*Energy_GC)
-    print("The energy of this structure is about", Energy, "kJ/mol.")
+    print("The binding energy of this structure is about", Energy, "kcal/mol.")
     return Energy
 
 
 matrix = init(m)
-score = fill(matrix,m,pairs)
+score = fill(matrix, m, pairs)
 show(matrix, m)
 
-traceback(0,m-1)
+traceback(0, m-1)
 dotbracketstring = ''.join(str(i) for i in dotbracket)
 
-print("Dot-Bracket-Annotation:",dotbracketstring)
+print("Dot-Bracket-Annotation:", dotbracketstring)
 calculateenergy(dotbracket)
