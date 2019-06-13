@@ -3,7 +3,7 @@
 
 #testsequence
 
-seq = "AAAAAUUUUUU"
+seq = "AAAAAAUUUUUCCCGGGCCCACACCAACACACACACCAU"
 seqlist = [x for x in seq]
 
 m = len(seq)
@@ -89,15 +89,15 @@ def traceback(i,j):
     return dotbracket
 
 
-#calculate binding energy of the structure
+# calculate binding energy of the structure
 
 def calculateenergy(dotbracket):
     Energy = 0
     AU = 0
     GC = 0
     x = 0
-    Energy_AU = 20
-    Energy_GC = 30
+    Energy_AU = -1.9
+    Energy_GC = -2.9
     for charackter in dotbracket:
         if charackter == '(':
             y = dotbracket.index(charackter, x)
@@ -109,7 +109,7 @@ def calculateenergy(dotbracket):
         else:
              pass
     Energy = (AU*Energy_AU)+(GC*Energy_GC)
-    print("The energy of this structure is about", Energy, "kJ/mol.")
+    print("The energy of this structure is about", Energy, "kcal/mol.")
     return Energy
 
 
