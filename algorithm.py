@@ -1,21 +1,37 @@
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-input", "--sequence", required=True, type=str, help="Enter your RNA sequence here!")
+parser.add_argument("-input", "--sequence", required=True, type=str, help="Enter your RNA sequence or fasta file here!")
 parser.add_argument("--output_dir", help="Where to put output files")
-parser.add_argument("-mll", "--minloop", default=4, type=int, help="Modify the minimal loop length.")
+parser.add_argument("-mll", "--minloop", default=2, type=int, help="Modify the minimal loop length.")
 a = parser.parse_args()
 
-seq = a.sequence
 
+# create sequence from fasta file
 
+def readfromfasta(file):
+    file = open(a.sequence, 'r')
+    rawseq = str()
+    for line in file:
+        if line.startswith('>'):
+            pass
+        else:
+            rawseq = rawseq + line
+    fastaseq = rawseq.replace(" ", "").replace("\n", "")
+    file.close()
+    return fastaseq
 
+if a.sequence.endswith('.fasta'):
+    seq = readfromfasta(a.sequence)
+else:
+    seq = a.sequence
 
+seq = seq.upper()
 seqlist = [x for x in seq]
 
 m = len(seq)
 
-minloop = a.minloop                # minimal loop length
+minloop = a.minloop     # minimal loop length
 
 
 # initialise matrix
@@ -61,7 +77,7 @@ pairs = {
 def fill(matrix, m, pairs):
     for n in range(2, m):
         for j in range(n, m):
-            i = j -n
+            i = j - n
             matrix[i][j] = max(matrix[i][j-1],              # unpaired
                                matrix[i+1][j],              # unpaired
                                matrix[i+1][j-1] + pairs[seq[i], seq[j]],     # paired
