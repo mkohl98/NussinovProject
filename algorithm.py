@@ -41,24 +41,17 @@ def show(matrix, m):
 
 # scoring 'matrix'
 
-pairs = {
-    ('A', 'A'): 0,
-    ('U', 'U'): 0,
-    ('G', 'G'): 0,
-    ('C', 'C'): 0,
-    ('A', 'U'): 1,
-    ('U', 'A'): 1,
-    ('G', 'C'): 1,
-    ('C', 'G'): 1,
-    ('A', 'C'): 0,
-    ('C', 'A'): 0,
-    ('A', 'G'): 0,
-    ('G', 'A'): 0,
-    ('U', 'C'): 0,
-    ('C', 'U'): 0,
-    ('U', 'G'): 0,
-    ('G', 'U'): 0,
-}
+
+def createscoringmatrix(file):
+    f = open(file, 'r')
+    for line in f:
+        if line.startswith('#'):
+            pass
+        else:
+            line = line.replace(' ', "")
+            line_list = [x for x in line]
+            pairs.update({(line_list[0], line_list[1]): int(line_list[2]),})
+    return pairs
 
 
 # filling
@@ -80,7 +73,7 @@ def fill(matrix, m, pairs):
 # traceback
 
 def traceback(i, j):
-    if i + minloop < j:            # opportunity to set minimal loop length by adding this to 'i'
+    if i + minloop < j:
         if matrix[i][j] == matrix[i+1][j]:                  # unpaired
             return traceback(i+1, j)
         elif matrix[i][j] == matrix[i][j-1]:  # unpaired
@@ -151,12 +144,14 @@ if set(seq) <= valid_characters:
 
     minloop = a.minloop  # minimal loop length
 
+    pairs = {}
+    createscoringmatrix('scoring_matrix.tab')
     matrix = init(m)
     fill(matrix, m, pairs)
     show(matrix, m)
 
     dotbracket = ['.' for x in range(m)]  # creating dotbracket annotation
-    traceback(0, m-1) ###########m-1
+    traceback(0, m-1)
     dotbracketstring = ''.join(str(i) for i in dotbracket)
 
     print("Dot-Bracket-Annotation:", dotbracketstring)
