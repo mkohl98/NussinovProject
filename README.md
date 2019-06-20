@@ -11,7 +11,7 @@
 - Copy the downloaded file in the directory
 - Execute algorithm.py in command line
 
-###Usage
+### Usage
 
 _Note_: Make sure you have _algorithm.py_ and _scoring_matrix.tab_ in your working directory.
 
