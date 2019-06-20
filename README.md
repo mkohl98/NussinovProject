@@ -1,4 +1,4 @@
-# Implemtation of Nussinov algorithm
+# Implementation of Nussinov algorithm
 ### Prerequisites
 
 - Python 3
